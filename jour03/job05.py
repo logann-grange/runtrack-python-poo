@@ -5,8 +5,24 @@ class Personnage() :
         self.nom = nom
         self.vie = vie
 
-    def attaquer(self, ennemie):
-        ennemie.vie -= 20
+    def soin(self) :
+        self.vie += 60
+
+    def attaquer(self, ennemi):
+        if ennemi.vie > 20 :
+            ennemi.vie -= 20
+        else :
+            ennemi.vie = 0
+
+    def action(self, action, ennemi) :
+        if action == "a" :
+            self.attaquer(ennemi)
+        elif action == "s" :
+            self.soin()
+  O
+ /T\
+  |
+ / \
 
     
 class Jeu() :
@@ -44,9 +60,11 @@ class Jeu() :
         while not jeu.verif_fin() :
             time.sleep(1)
             if tour_joueur :
-                self.joueur.attaquer(jeu.ennemi)
+                self.joueur.action(input("Votre tour :\na : attaquer    |   s : se soigner --> "), jeu.ennemi)
                 tour_joueur = False
             else :
+                print("L'ennemi attaque !")
+                time.sleep(1)
                 self.ennemi.attaquer(jeu.joueur)
                 tour_joueur = True
             #not tour_joueur
