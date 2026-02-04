@@ -6,8 +6,7 @@ class Commande() :
         self.__status = statut
 
     def add_plats(self, plat, prix) :
-        self.list_plats["plat"].append(plat)
-        self.__list_plats["prix"].append(prix)
+        self.__list_plats[plat] = prix
 
     def annule_commande(self) :
         self.__status = "annulée"
@@ -15,26 +14,17 @@ class Commande() :
     def afficher_prix(self) :
         prix_total = 0
         tva_total = 0
-        for i in range(len(self.__list_plats["prix"])) :
-            prix_total += self.__list_plats["prix"][i]
-            tva_total += self.calcul_tva(i)
-            print(f"{self.__list_plats['plat'][i]} : {self.__list_plats['prix'][i]}€    TVA : {self.calcul_tva(i)}")
+        for plat, prix in self.__list_plats.items() :
+            prix_total += prix
+            tva_total += self.calcul_tva(plat)
+            print(f"{plat} : {self.__list_plats[plat]}€    TVA : {self.calcul_tva(plat)}")
         print(f"total : {prix_total}€    TVA : {tva_total}")
 
-    def calcul_tva(self, index) :
-        return self.__list_plats['prix'][index] * 0.2
+    def calcul_tva(self, plat) :
+        return self.__list_plats[plat] * 0.2
 
 
-        
-
-
-
-list_plat = ["Pâtes", "Pizza", "Tacos"]
-list_prix = [9.5, 7.6, 9.7]
-dict_commande = {
-    "plat" : list_plat,
-    "prix" : list_prix
-}
-
-commande = Commande(29, dict_commande, "en cours")   
+list_plat = {"Pâtes" : 8.8 , "Pizza" : 9.5, "Tacos" : 9.7}
+commande = Commande(29, list_plat, "en cours")
+commande.add_plats("Entrecôte", 16.5)
 commande.afficher_prix()
