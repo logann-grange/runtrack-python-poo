@@ -19,10 +19,6 @@ class Personnage() :
             self.attaquer(ennemi)
         elif action == "s" :
             self.soin()
-  O
- /T\
-  |
- / \
 
     
 class Jeu() :
@@ -39,7 +35,6 @@ class Jeu() :
         vie_j = 0
         nom_e = "Ennemi"
         vie_e = 0
-        tour_joueur = True
         
         match self.niveau :
             case "Facile" :
@@ -56,19 +51,6 @@ class Jeu() :
 
         self.joueur = Personnage(nom_j, vie_j)
         self.ennemi = Personnage(nom_e, vie_e)
-
-        while not jeu.verif_fin() :
-            time.sleep(1)
-            if tour_joueur :
-                self.joueur.action(input("Votre tour :\na : attaquer    |   s : se soigner --> "), jeu.ennemi)
-                tour_joueur = False
-            else :
-                print("L'ennemi attaque !")
-                time.sleep(1)
-                self.ennemi.attaquer(jeu.joueur)
-                tour_joueur = True
-            #not tour_joueur
-            self.afficher_vie()
             
 
     def verif_fin(self) :
@@ -76,7 +58,7 @@ class Jeu() :
             print("Vous avez perdu !")
             return True
         elif self.ennemi.vie <= 0 :
-            print("Vous avez gagné")
+            print("Vous avez gagné !")
             return True
         return False
 
@@ -87,7 +69,17 @@ class Jeu() :
 jeu = Jeu()
 jeu.choisir_niveau()
 jeu.lancer_jeu()
+tour_joueur = True
 
-
-
-
+while not jeu.verif_fin() :
+            time.sleep(1)
+            if tour_joueur :
+                jeu.joueur.action(input("Votre tour :\na : attaquer    |   s : se soigner --> "), jeu.ennemi)
+                tour_joueur = False
+            else :
+                print("L'ennemi attaque !")
+                time.sleep(1)
+                jeu.ennemi.attaquer(jeu.joueur)
+                tour_joueur = True
+            #not tour_joueur
+            jeu.afficher_vie()
