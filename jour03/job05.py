@@ -1,4 +1,5 @@
 import time
+from random import randint
 
 class Personnage() :
     def __init__(self, nom, vie):
@@ -6,9 +7,11 @@ class Personnage() :
         self.vie = vie
 
     def soin(self) :
+        print(f"{self.nom} se soigne !")
         self.vie += 60
 
     def attaquer(self, ennemi):
+        print(f"{self.nom} attaque !")
         if ennemi.vie > 20 :
             ennemi.vie -= 20
         else :
@@ -70,6 +73,7 @@ jeu = Jeu()
 jeu.choisir_niveau()
 jeu.lancer_jeu()
 tour_joueur = True
+list_action = ["a", "a", "a", "s"]
 
 while not jeu.verif_fin() :
             time.sleep(1)
@@ -77,9 +81,9 @@ while not jeu.verif_fin() :
                 jeu.joueur.action(input("Votre tour :\na : attaquer    |   s : se soigner --> "), jeu.ennemi)
                 tour_joueur = False
             else :
-                print("L'ennemi attaque !")
+                #print("L'ennemi attaque !")
                 time.sleep(1)
-                jeu.ennemi.attaquer(jeu.joueur)
+                jeu.ennemi.action(list_action[randint(0, 3)], jeu.joueur)
+                #jeu.ennemi.attaquer(jeu.joueur)
                 tour_joueur = True
-            #not tour_joueur
             jeu.afficher_vie()
